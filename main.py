@@ -37,11 +37,11 @@ def sauvegarder_mot_de_passe(nom_utilisateur, mot_de_passe):
         pass
 
     if nom_utilisateur in donnees:
-        messagebox.showerror("Erreur", "Ce nom d'utilisateur existe déjà. Choisissez un autre nom.")
+        messagebox.showerror("Erreur", "Ce nom d'utilisateur existe déjà \u2764 Choisissez un autre nom.")
     else:
-        for nom_utilisateur, mdp in donnees.items():
+        for utilisateur, mdp in donnees.items():
             if comparer_mots_de_passe(mdp, crypter_mot_de_passe(mot_de_passe)):
-                messagebox.showerror("Erreur", "Ce mot de passe existe déjà. Choisissez un autre mot de passe.")
+                messagebox.showerror("Erreur", "Ce mot de passe existe déjà \u2764 Choisissez un autre mot de passe.")
                 return
 
         mot_de_passe_crypte = crypter_mot_de_passe(mot_de_passe)
@@ -49,6 +49,7 @@ def sauvegarder_mot_de_passe(nom_utilisateur, mot_de_passe):
         with open('mots_de_passe.json', 'w') as fichier:
             json.dump(donnees, fichier)
         messagebox.showinfo("Mot de passe enregistré", "Bravo !")
+
 
 # Fonction pour générer un mot de passe aléatoire
 
