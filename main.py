@@ -8,13 +8,24 @@ import string
 # Fonction pour vérifier la sécurité du mot de passe
 
 def est_mot_de_passe_securise(mot_de_passe):
-    return (
-        len(mot_de_passe) >= 8 and
-        any(char.isupper() for char in mot_de_passe) and
-        any(char.islower() for char in mot_de_passe) and
-        any(char.isdigit() for char in mot_de_passe) and
-        any(char in "!@#$%^&*" for char in mot_de_passe)
-    )
+    missing_elements = []
+    if len(mot_de_passe) < 8:
+        missing_elements.append("au moins 8 caractères")
+    if not any(char.isupper() for char in mot_de_passe):
+        missing_elements.append("une majuscule")
+    if not any(char.islower() for char in mot_de_passe):
+        missing_elements.append("une minuscule")
+    if not any(char.isdigit() for char in mot_de_passe):
+        missing_elements.append("un chiffre")
+    if not any(char in "!@#$%^&*" for char in mot_de_passe):
+        missing_elements.append("un caractère spécial")
+
+# regroupe tout les élements et écrit Lesquels sont manquants 
+        
+    if missing_elements:
+        return False, ",\n".join(missing_elements) + " est manquant \u2728 "
+    else:
+        return True, None
 
 # Fonction pour crypter un mot de passe
 
@@ -48,7 +59,7 @@ def sauvegarder_mot_de_passe(nom_utilisateur, mot_de_passe):
         donnees[nom_utilisateur] = mot_de_passe_crypte
         with open('mots_de_passe.json', 'w') as fichier:
             json.dump(donnees, fichier)
-        messagebox.showinfo("Mot de passe enregistré", "Bravo !")
+        messagebox.showinfo("Mot de passe enregistré", "Bravo ! ")
 
 
 # Fonction pour générer un mot de passe aléatoire
@@ -70,11 +81,12 @@ def generer_mot_de_passe_aleatoire():
 
 def valider_mot_de_passe():
     mot_de_passe = entry_mot_de_passe.get()
-    if est_mot_de_passe_securise(mot_de_passe):
+    est_securise, message = est_mot_de_passe_securise(mot_de_passe)
+    if est_securise:
         sauvegarder_mot_de_passe(entry_nom_utilisateur.get(), mot_de_passe)
         root.destroy()
     else:
-        messagebox.showerror(">o<", "Mot de passe invalide, fais un effort \u2764 ")
+        label_erreur.config(text=message, fg="red")
 
 # Fonction pour générer un mot de passe aléatoire et l'afficher dans l'entrée de texte
 
@@ -109,6 +121,9 @@ root.configure(bg='#FFC0CB')
 frame_centrale = tk.Frame(root, bg='#FFC0CB') 
 frame_centrale.pack(expand=True, fill='both')
 
+label_erreur = tk.Label(root, text="", fg="red", bg='#FFC0CB')
+label_erreur.pack()
+
 label = tk.Label(root, text="Bienvenue, j'espère que vous passez une bonne journée !", font=("Helvetica", 14))
 label.pack(pady=10)
 
@@ -121,8 +136,18 @@ entry_nom_utilisateur.pack(pady=10)
 label_mot_de_passe = tk.Label(frame_centrale, text="Mot de passe :", fg="#473C8B", bg='#FFC0CB', font=("Arial", 18)) 
 label_mot_de_passe.pack(pady=10)
 
-entry_mot_de_passe = tk.Entry(frame_centrale)
+entry_mot_de_passe = tk.Entry(frame_centrale, show="*")
 entry_mot_de_passe.pack(pady=10)
+
+def toggle_affichage_mot_de_passe():
+    if check_afficher_mot_de_passe_var.get():
+        entry_mot_de_passe.config(show="")
+    else:
+        entry_mot_de_passe.config(show="*")
+
+check_afficher_mot_de_passe_var = tk.BooleanVar()
+check_afficher_mot_de_passe = tk.Checkbutton(frame_centrale, text="Afficher le mot de passe", variable=check_afficher_mot_de_passe_var, command=toggle_affichage_mot_de_passe, fg="#473C8B", bg='#FFC0CB', font=("Arial", 14))
+check_afficher_mot_de_passe.pack(pady=5)
 
 button_valider = tk.Button(frame_centrale, text="Valider", command=valider_mot_de_passe, padx=40, pady=5, fg="#473C8B", bg='#E0C8ED', font=("Arial", 16))  
 button_valider.pack(pady=25)

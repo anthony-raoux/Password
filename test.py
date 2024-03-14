@@ -81,7 +81,7 @@ def valider_mot_de_passe():
 
 def generer_mot_de_passe_aleatoire_et_afficher():
     mot_de_passe_aleatoire = generer_mot_de_passe_aleatoire()
-    entry_mot_de_passe.delete(0, tk.END)
+    entry_mot_de_passe.delete(0, Tk.END)
     entry_mot_de_passe.insert(0, mot_de_passe_aleatoire)
 
 # Fonction pour afficher les mots de passe enregistrés
@@ -102,7 +102,7 @@ def afficher_mots_de_passe_enregistres():
         CTkMessagebox.showinfo("Aucun mot de passe enregistré", "Aucun mot de passe n'est actuellement enregistré.")
 
 customtkinter.set_appearance_mode("system")
-customtkinter.set_default_color_theme("green")
+customtkinter.set_default_color_theme("blue")
 
 root = customtkinter.CTk()
 
