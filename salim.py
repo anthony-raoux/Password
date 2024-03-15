@@ -2,6 +2,14 @@
 import tkinter as tk  # Importation du module Tkinter pour créer une interface graphique
 from tkinter import messagebox  # Importation de la boîte de dialogue messagebox
 
+import tkinter.ttk as ttk
+import tkinter
+
+import tkinter.ttk as ttk
+import tkinter
+
+app = tkinter.Tk()
+app.geometry("400x350")
 
 
 import hashlib  # Module pour le hachage sécurisé des mots de passe
@@ -38,7 +46,7 @@ def sauvegarder_mot_de_passe(nom_utilisateur, mot_de_passe):
         pass
 
     if nom_utilisateur in donnees:
-        messagebox.showerror("Erreur", "Ce nom d'utilisateur existe déjà. Choisissez un autre nom.")
+        messagebo.showerror("Erreur", "Ce nom d'utilisateur existe déjà. Choisissez un autre nom.")
     else:
         mot_de_passe_crypte = crypter_mot_de_passe(mot_de_passe)
         donnees[nom_utilisateur] = mot_de_passe_crypte
@@ -101,42 +109,45 @@ def afficher_mots_de_passe_enregistres():
                 message = "Mots de passe enregistrés:\n"
                 for utilisateur, mdp in donnees.items():
                     message += f"{utilisateur}: {mdp}\n"
+                    
                 messagebox.showinfo("Mots de passe enregistrés", message)
             else:
                 messagebox.showinfo("Aucun mot de passe enregistré", "Aucun mot de passe n'est actuellement enregistré.")
     except FileNotFoundError:
         messagebox.showinfo("Aucun mot de passe enregistré", "Aucun mot de passe n'est actuellement enregistré.")
 
+def button_function():
+    print("button pressed")
 
-# Création de la fenêtre principale de l'interface graphique
-root = tk.Tk()
-root.title("Gestionnaire de mots de passe")
+s = ttk.Style()
+s.configure("TRadiobutton", fg="red")
 
-# Création des étiquettes et champs d'entrée pour le nom d'utilisateur et le mot de passe
-label_nom_utilisateur = tk.Label(root, text="Nom d'utilisateur:")
-label_nom_utilisateur.pack()
+y_padding = 6
 
-entry_nom_utilisateur = tk.Entry(root)
-entry_nom_utilisateur.pack()
+frame_1 = tkinter.Frame(master=app, width=300, height=260, bg="lightgray")
+frame_1.pack(padx=60, pady=20, fill="both", expand=True)
 
-label_mot_de_passe = tk.Label(root, text="Mot de passe:")
-label_mot_de_passe.pack()
+# Label
+label_1 = tkinter.Label(master=frame_1, text="Nom d'utilisateur", bg="lightgray")
+label_1.pack(pady=y_padding, padx=10)
+entry_1 = tkinter.Entry(master=frame_1, highlightbackground="lightgray", width=40)
+entry_1.pack(pady=y_padding, padx=10)
 
-entry_mot_de_passe = tk.Entry(root)
-entry_mot_de_passe.pack()
+# Label
+label_2 = tkinter.Label(master=frame_1, text="Mot de passe", bg="lightgray")
+label_2.pack(pady=y_padding, padx=10)
+entry_2 = tkinter.Entry(master=frame_1, highlightbackground="lightgray", width=40)
+entry_2.pack(pady=y_padding, padx=10)
 
-# Création des boutons pour valider le mot de passe, générer un mot de passe aléatoire et afficher les mots de passe enregistrés
-button_valider = tk.Button(root, text="Valider", command=valider_mot_de_passe)
-button_valider.pack()
-
-button_generer_mot_de_passe = tk.Button(root, text="Générer un mot de passe aléatoire", command=generer_mot_de_passe_aleatoire_et_afficher)
-button_generer_mot_de_passe.pack()
-
-button_afficher_mots_de_passe = tk.Button(root, text="Afficher les mots de passe enregistrés", command=afficher_mots_de_passe_enregistres)
-button_afficher_mots_de_passe.pack()
+button_1 = tkinter.Button(master=frame_1, command=button_function, text="Valide", highlightbackground="lightgray")
+button_1.pack(pady=y_padding, padx=10)
 
 
+button_2 = tkinter.Button(master=frame_1, command=button_function, text="Générer un mot de passe", highlightbackground="lightgray")
+button_2.pack(pady=y_padding, padx=10)
 
-# Boucle principale pour maintenir l'interface graphique en cours d'exécution
-root.mainloop()
+button_3 = tkinter.Button(master=frame_1, command=button_function, text="Afficher les mots de passe enregistrer", highlightbackground="lightgray")
+button_3.pack(pady=y_padding, padx=10)
 
+
+app.mainloop()
