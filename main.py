@@ -139,6 +139,8 @@ label_mot_de_passe.pack(pady=10)
 entry_mot_de_passe = tk.Entry(frame_centrale, show="*")
 entry_mot_de_passe.pack(pady=10)
 
+#switch entre afficher le mot de passe et le cacher
+
 def toggle_affichage_mot_de_passe():
     if check_afficher_mot_de_passe_var.get():
         entry_mot_de_passe.config(show="")
